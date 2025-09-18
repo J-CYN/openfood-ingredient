@@ -28,8 +28,7 @@ CSV="$DATA_DIR/products.csv"
 [ -s "$CSV" ] || { echo "ERROR: $CSV not found or empty." >&2; exit 1; }
 # Check csvkit tools
 for cmd in csvcut csvgrep csvformat; do
-command -v "$cmd" >/dev/null 2>&1 || { echo "ERROR: $cmd not found. Please install csvkit." >&2; exit
-1; }
+command -v "$cmd" >/dev/null 2>&1 || { echo "ERROR: $cmd not found. Please install csvkit." >&2; exit 1; }
 done
 # Normalize Windows CRs (if any) into a temp file to avoid parsing issues
 tmp_csv="$(mktemp)"
@@ -45,6 +44,6 @@ csvcut -t -c ingredients_text,product_name,code "$tmp_csv" \
 count="$(wc -l < "$tmp_matches" | tr -d ' ')"
 echo "----"
 echo "Found ${count} product(s) containing: \"${INGREDIENT}\""
-5/8
+
 # cleanup
 rm -f "$tmp_csv" "$tmp_matches"
